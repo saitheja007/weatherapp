@@ -1,21 +1,21 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: weatherdeployment
+  name: weatherdeployment1
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: weatherapp
+      app: weatherapp1
   template:
     metadata:
-      name: weatherpod
+      name: weatherpod1
       labels:
-        app: weatherapp
+        app: weatherapp1
     spec:
       containers:
-      - name: weathercontainer
-        image: saitheja12/weatherappimage:latest
+      - name: weatherautomation
+        image: saitheja12/weatherautomation:latest
         command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
         ports:
         - containerPort: 8000
