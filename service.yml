@@ -4,7 +4,7 @@ kind: Service
 
 metadata:
 
-  name: weatherservice
+  name: weatherservice1
 
 spec:
 
@@ -12,7 +12,7 @@ spec:
 
   selector:
 
-    app: weatherapp
+    app: weatherapp1
 
   ports:
 
@@ -20,4 +20,4 @@ spec:
 
       targetPort: 8000
 
-      nodePort: 31555 # You can change this to any available port number above 30000
+      nodePort: 31565 # You can change this to any available port number above 30000
