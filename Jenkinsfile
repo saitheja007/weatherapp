@@ -7,7 +7,7 @@ pipeline {
                 git 'https://github.com/saitheja007/weatherapp.git'
             }
         }
-        stage('Build Image') {
+        /*stage('Build Image') {
             steps {
                 script {
                     bat "docker build -t saitheja12/weather-automation1 ."
@@ -44,15 +44,15 @@ pipeline {
                 }
 
             }
-        }
-        /*stage('Download Minikube for Windows') {
+        }*/
+        stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
             }
         }
         stage('Install Minikube') {
             steps {
-                bat 'move minikube.exe C:\\Users\\12826\\.jenkins\\workspace\\Weather-Automation'
+                bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation'
                 bat 'setx PATH "%PATH%;C:\\minikube"'
             }
         }
@@ -60,12 +60,12 @@ pipeline {
             steps {
                 script {
                     // Define Minikube installation path (update as needed)
-                    def minikubePath = 'C:\\Users\\12826\\minikube.exe'
+                    def minikubePath = 'C:\\Users\\12687\\minikube.exe'
 
  
 
                     // Start Minikube
-                    bat "cd C:\\Users\\12826\\.jenkins\\workspace\\Poll-Automation && ${minikubePath} start --driver=docker"
+                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\weather-Automation && ${minikubePath} start --driver=docker"
                 }
             }
         }
@@ -95,16 +95,16 @@ pipeline {
         stage('Expose NodePort 8000') {
             steps {
                 script {
-                    bat "kubectl expose deployment weather-app-deployment --type=NodePort --port=8000"
+                    bat "kubectl expose deployment weatherdeployment1 --type=NodePort --port=8000"
                 }
             }
         }
         stage('Get URL and play with Application') {
             steps {
                 script {
-                    bat "minikube service weather-automation-service"
+                    bat "minikube service weatherservice1 -url"
                 }
             }
-        }*/
+        }
     }
 }
