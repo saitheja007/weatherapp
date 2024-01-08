@@ -12,7 +12,7 @@ spec:
 
   selector:
 
-    app: weatherapp1
+    app: weatherapp
 
   ports:
 
@@ -20,4 +20,4 @@ spec:
 
       targetPort: 8000
 
-      nodePort: 31565 # You can change this to any available port number above 30000
+      nodePort: 31666 # You can change this to any available port number above 30000
