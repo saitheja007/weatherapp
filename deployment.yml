@@ -6,16 +6,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: weatherapp1
+      app: weatherapp
   template:
     metadata:
-      name: weatherpod1
+      name: weatherpod
       labels:
-        app: weatherapp1
+        app: weatherapp
     spec:
       containers:
-      - name: weatherautomation
-        image: saitheja12/weatherautomation:latest
+      - name: weatherautomationcontainer1
+        image: saitheja12/weather-automation1
         command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
         ports:
         - containerPort: 8000
