@@ -45,7 +45,7 @@ pipeline {
 
             }
         }*/
-        stage('Download Minikube for Windows') {
+        /*stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
             }
@@ -55,7 +55,7 @@ pipeline {
                 bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation'
                 bat 'setx PATH "%PATH%;C:\\minikube"'
             }
-        }
+        }*/
         stage('Start Minikube') {
             steps {
                 script {
