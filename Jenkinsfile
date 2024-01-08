@@ -44,7 +44,7 @@ pipeline {
                 }
 
             }
-        }
+        }*/
         stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
