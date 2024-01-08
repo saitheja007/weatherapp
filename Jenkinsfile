@@ -69,13 +69,13 @@ pipeline {
                 }
             }
         }
-        stage('Minikube status') {
+        /*stage('Minikube status') {
             steps {
                 script {
                     bat "minikube status"
                 }
             }
-        }
+        }*/
         stage('Deploy to Kubernetes') {
             steps {
                 script {
