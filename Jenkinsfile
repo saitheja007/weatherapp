@@ -69,14 +69,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Minikube status') {
-            steps {
-                script {
-                    bat "minikube status"
-                }
-            }
-        }*/
-        stage('Deploy to Kubernetes') {
+        /*stage('Deploy to Kubernetes') {
             steps {
                 script {
                     bat "kubectl apply -f deployment.yml"
@@ -95,14 +88,14 @@ pipeline {
         stage('Expose NodePort 8000') {
             steps {
                 script {
-                    bat "kubectl expose deployment weatherdeployment1 --type=NodePort --port=8000"
+                    bat "kubectl expose deployment weatherdeployment2 --type=NodePort --port=8000"
                 }
             }
-        }
+        }*/
         stage('Get URL and play with Application') {
             steps {
                 script {
-                    bat "minikube service weatherservice1 -url"
+                    bat "minikube service weatherservice1"
                 }
             }
         }
