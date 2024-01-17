@@ -62,10 +62,8 @@ pipeline {
                     // Define Minikube installation path (update as needed)
                     def minikubePath = 'C:\\Users\\12687\\minikube.exe'
 
- 
-
                     // Start Minikube
-                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\weather-Automation && %minikubePath% start --driver=docker"
+                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\weather-Automation && "\${minikubePath}\" start --driver=docker"
                 }
             }
         }
