@@ -7,7 +7,7 @@ pipeline {
                 git 'https://github.com/saitheja007/weatherapp.git'
             }
         }
-        stage('Build Image') {
+        /*stage('Build Image') {
             steps {
                 script {
                     bat "docker build -t saitheja12/weather-automation1 ."
@@ -44,7 +44,7 @@ pipeline {
                 }
 
             }
-        }
+        }*/
         stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
