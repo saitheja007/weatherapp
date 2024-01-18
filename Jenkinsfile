@@ -7,7 +7,7 @@ pipeline {
                 git 'https://github.com/saitheja007/weatherapp.git'
             }
         }
-        /*stage('Build Image') {
+        stage('Build Image') {
             steps {
                 script {
                     bat "docker build -t saitheja12/weather-automation1 ."
@@ -55,7 +55,7 @@ pipeline {
                 bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation'
                 bat 'setx PATH "%PATH%;C:\\minikube"'
             }
-        }*/
+        }
         stage('Start Minikube') {
             steps {
                 script {
@@ -67,7 +67,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Deploy to Kubernetes') {
+        stage('Deploy to Kubernetes') {
             steps {
                 script {
                     bat "kubectl apply -f deployment.yml"
@@ -86,14 +86,14 @@ pipeline {
         stage('Expose NodePort 8000') {
             steps {
                 script {
-                    bat "kubectl expose deployment weatherdeployment1 --type=NodePort --port=8000"
+                    bat "kubectl expose deployment weatherdeployment2 --type=NodePort --port=8000"
                 }
             }
-        }*/
+        }
         stage('Get URL and play with Application') {
             steps {
                 script {
-                    bat "minikube service weatherservice1"
+                    bat "minikube service weatherservice2"
                 }
             }
         }
