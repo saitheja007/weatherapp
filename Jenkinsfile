@@ -10,7 +10,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Docker Image') {
+        /*stage('Build Docker Image') {
             steps {
                 script {
                     // Build Docker image
@@ -54,7 +54,7 @@ pipeline {
                     bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation && setx PATH "%PATH%;C:\\minikube"'
                 }
             }
-        }
+        }*/
         stage('Start Minikube') {
             steps {
                 script {
