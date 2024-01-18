@@ -66,7 +66,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
+        /*stage('Deploy to Kubernetes') {
             steps {
                 script {
                     // Apply Kubernetes deployment
@@ -91,7 +91,7 @@ pipeline {
                     bat "kubectl expose deployment weather-app-deployment --type=NodePort --port=8000"
                 }
             }
-        }
+        }*/
         stage('Get URL and play with Application') {
             steps {
                 script {
