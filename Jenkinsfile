@@ -2,26 +2,26 @@ pipeline {
     agent any
 
     stages {
-        stage('Git checkout') {
+        stage('Git') {
             steps {
-                git 'https://github.com/saitheja007/weatherapp.git'
+                https://github.com/saitheja007/weatherapp.git
             }
         }
-        /*stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t saitheja12/weather-automation1 ."
+                    bat "docker build -t saitheja12/weather-automation ."
                 }
             }
         }
-        stage('Create Container') {
+        stage('Cretae Docker Container') {
             steps {
                 script {
-                    bat "docker run -d --name weatherautomationcontainer1 -p 8000:8000  saitheja12/weather-automation1"
+                    bat "docker run -d --name weatherautomationcontainer -p 8000:8000  saitheja12/weather-automation"
                 }
             }
         }
-        stage('Push Images to Docker Hub') {
+        stage('Push Docker Images to Docker Hub') {
 
             steps {
 
@@ -37,14 +37,14 @@ pipeline {
 
                         // Push the Docker images to your Docker Hub repository
                      
-                        bat 'docker push saitheja12/weather-automation1'
+                        bat 'docker push saitheja12/weather-automation'
 
                     }
 
                 }
 
             }
-        }*/
+        }
         stage('Download Minikube for Windows') {
             steps {
                 bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
@@ -62,8 +62,10 @@ pipeline {
                     // Define Minikube installation path (update as needed)
                     def minikubePath = 'C:\\Users\\12687\\minikube.exe'
 
+ 
+
                     // Start Minikube
-                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\weather-Automation && "${minikubePath}" start --driver=docker"
+                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\Poll-Automation && ${minikubePath} start --driver=docker"
                 }
             }
         }
@@ -86,14 +88,14 @@ pipeline {
         stage('Expose NodePort 8000') {
             steps {
                 script {
-                    bat "kubectl expose deployment weatherdeployment2 --type=NodePort --port=8000"
+                    bat "kubectl expose deployment weather-app-deployment --type=NodePort --port=8000"
                 }
             }
         }
         stage('Get URL and play with Application') {
             steps {
                 script {
-                    bat "minikube service weatherservice2"
+                    bat "minikube service weather-automation-service"
                 }
             }
         }
