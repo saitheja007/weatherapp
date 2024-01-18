@@ -96,7 +96,7 @@ pipeline {
             steps {
                 script {
                     // Get the URL for the Minikube service
-                    bat "minikube service weather-automation-service"
+                    bat "minikube service weather-automation-service --url"
                 }
             }
         }
