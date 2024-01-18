@@ -4,74 +4,72 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                https://github.com/saitheja007/weatherapp.git
+                script {
+                    // Clone the Git repository
+                    git 'https://github.com/saitheja007/weatherapp.git'
+                }
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Build Docker image
                     bat "docker build -t saitheja12/weather-automation ."
                 }
             }
         }
-        stage('Cretae Docker Container') {
+        stage('Create Docker Container') {
             steps {
                 script {
-                    bat "docker run -d --name weatherautomationcontainer -p 8000:8000  saitheja12/weather-automation"
+                    // Create and run Docker container
+                    bat "docker run -d --name weatherautomationcontainer -p 8000:8000 saitheja12/weather-automation"
                 }
             }
         }
-        stage('Push Docker Images to Docker Hub') {
-
+        stage('Push Docker Image to Docker Hub') {
             steps {
-
                 script {
-
                     // Log in to Docker Hub using Jenkins credentials
-
                     withCredentials([usernamePassword(credentialsId: 'docker-cred', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-
                         bat "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
 
- 
-
-                        // Push the Docker images to your Docker Hub repository
-                     
+                        // Push the Docker image to Docker Hub repository
                         bat 'docker push saitheja12/weather-automation'
-
                     }
-
                 }
-
             }
         }
         stage('Download Minikube for Windows') {
             steps {
-                bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
+                script {
+                    // Download Minikube
+                    bat 'curl -Lo minikube.exe https://storage.googleapis.com/minikube/releases/latest/minikube-windows-amd64.exe'
+                }
             }
         }
         stage('Install Minikube') {
             steps {
-                bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation'
-                bat 'setx PATH "%PATH%;C:\\minikube"'
+                script {
+                    // Move Minikube and update PATH
+                    bat 'move minikube.exe C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation && setx PATH "%PATH%;C:\\minikube"'
+                }
             }
         }
         stage('Start Minikube') {
             steps {
                 script {
                     // Define Minikube installation path (update as needed)
-                    def minikubePath = 'C:\\Users\\12687\\minikube.exe'
-
- 
+                    def minikubePath = 'C:\\Users\\12687\\.jenkins\\workspace\\Weather-Automation\\minikube.exe'
 
                     // Start Minikube
-                    bat "cd C:\\Users\\12687\\.jenkins\\workspace\\Poll-Automation && ${minikubePath} start --driver=docker"
+                    bat "${minikubePath} start --driver=docker"
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    // Apply Kubernetes deployment
                     bat "kubectl apply -f deployment.yml"
                     bat "kubectl get deployment"
                 }
@@ -80,6 +78,7 @@ pipeline {
         stage('Create NodePort Service') {
             steps {
                 script {
+                    // Apply Kubernetes service
                     bat "kubectl apply -f service.yml"
                     bat "kubectl get svc"
                 }
@@ -88,6 +87,7 @@ pipeline {
         stage('Expose NodePort 8000') {
             steps {
                 script {
+                    // Expose NodePort for the deployment
                     bat "kubectl expose deployment weather-app-deployment --type=NodePort --port=8000"
                 }
             }
@@ -95,6 +95,7 @@ pipeline {
         stage('Get URL and play with Application') {
             steps {
                 script {
+                    // Get the URL for the Minikube service
                     bat "minikube service weather-automation-service"
                 }
             }
