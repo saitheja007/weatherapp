@@ -7,6 +7,7 @@ pipeline {
                 https://github.com/saitheja007/weatherapp.git
             }
         }
+    }
         stage('Build Docker Image') {
             steps {
                 script {
