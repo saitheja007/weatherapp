@@ -1,36 +1,36 @@
 trigger:
-- main
+- master  # Set the branch you want to trigger the pipeline on
 
 pool:
-  Superman
+  testpool1
 
 jobs:
-- job: DeployDjangoAppJob
-  displayName: 'Deploy Django Application'
+- job: BuildAndDeploy
+  displayName: 'Build and Deploy Django App'
+  
   steps:
-  - checkout: self
-
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '3.x'
+      versionSpec: '3.x'  # Specify the Python version you're using
       addToPath: true
 
   - script: |
-      python -m pip install --upgrade pip
+      sudo apt-get install python3-venv
+      python3 -m venv venv
+      source venv/bin/activate  # For Linux/macOS
       pip install -r requirements.txt
-    displayName: 'Install Python Dependencies'
-
-  - script: |
       python manage.py migrate
       python manage.py collectstatic --noinput
-    displayName: 'Django Database Migration and Static Files Collection'
+    displayName: 'Setup and install dependencies'
 
   - script: |
-      python manage.py test
-    displayName: 'Run Django Tests'
+      nohup python manage.py runserver &
+      sleep 10  # Allow the server to start before moving on
+    displayName: 'Run Django Application'
 
-  - script: |
-      gunicorn weatherapp.wsgi:application
-    displayName: 'Run Gunicorn Server'
-
-  # Add additional steps for your deployment process, such as deploying to Azure App Service, AWS Elastic Beanstalk, etc.
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        curl --retry 10 --retry-delay 10 --retry-max-time 60 -v http://localhost:8000  # Replace 8000 with your actual port
+    displayName: 'Verify Application is Running'
