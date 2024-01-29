@@ -12,20 +12,21 @@ jobs:
 - job: BuildAndDeploy
   displayName: 'Build and Deploy Django App'
 
+  env:
+    PYPI_TOKEN: $(githubToken)  # Use the GitHub token as an environment variable
+
   steps:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.x'
       addToPath: true
-      env:
-        PYPI_TOKEN: $(githubToken)  # Use the GitHub token as an environment variable
 
   - script: |
       sudo apt-get install python3-venv
-      python3 -m venv venv
+	  python -m venv venv
       source venv/bin/activate
       python -m pip install --upgrade pip
-      pip install -r requirements.txt
+	  pip install -r requirements.txt
       python manage.py migrate
       python manage.py collectstatic --noinput
     displayName: 'Setup and install dependencies'
