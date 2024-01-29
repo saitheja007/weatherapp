@@ -1,23 +1,30 @@
 trigger:
-- master  # Set the branch you want to trigger the pipeline on
+- master
 
 pool:
   testpool1
 
+variables:
+  - name: githubToken
+    value: $(GITHUB_TOKEN)  # Replace with the actual variable name
+
 jobs:
 - job: BuildAndDeploy
   displayName: 'Build and Deploy Django App'
-  
+
   steps:
   - task: UsePythonVersion@0
     inputs:
-      versionSpec: '3.x'  # Specify the Python version you're using
+      versionSpec: '3.x'
       addToPath: true
+      env:
+        PYPI_TOKEN: $(githubToken)  # Use the GitHub token as an environment variable
 
   - script: |
       sudo apt-get install python3-venv
       python3 -m venv venv
-      source venv/bin/activate  # For Linux/macOS
+      source venv/bin/activate
+      python -m pip install --upgrade pip
       pip install -r requirements.txt
       python manage.py migrate
       python manage.py collectstatic --noinput
@@ -25,12 +32,12 @@ jobs:
 
   - script: |
       nohup python manage.py runserver &
-      sleep 10  # Allow the server to start before moving on
+      sleep 10
     displayName: 'Run Django Application'
 
   - task: Bash@3
     inputs:
       targetType: 'inline'
       script: |
-        curl --retry 10 --retry-delay 10 --retry-max-time 60 -v http://localhost:8000  # Replace 8000 with your actual port
+        curl --retry 10 --retry-delay 10 --retry-max-time 60 -v http://localhost:8000
     displayName: 'Verify Application is Running'
