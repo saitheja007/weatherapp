@@ -1,7 +1,7 @@
 ---
 - name: Setup Docker environment and deploy application
-  hosts: all
-  become: yes
+  hosts: webservers
+  become: true
 
   vars:
     github_repo_url: "https://github.com/saitheja007/weatherapp.git"
