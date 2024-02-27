@@ -1,0 +1,65 @@
+---
+- name: Setup Docker environment and deploy application
+  hosts: webservers
+  become: true
+
+  vars:
+    github_repo_url: "https://github.com/saitheja007/weatherapp.git"
+    docker_image_name: "saitheja12/weatherapp"
+    docker_image_tag: "latest"
+    docker_hub_username: "saitheja12"
+    docker_hub_password: "Docker@123"
+
+  tasks:
+    - name: Install system dependencies
+      yum:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+        - python3-pip
+        - python3-virtualenv
+        - python3-setuptools
+
+    - name: Add Docker repository
+      yum_repository:
+        name: docker-ce-stable
+        description: Docker CE Stable - $basearch
+        baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+        gpgcheck: yes
+        gpgkey: https://download.docker.com/linux/centos/gpg
+        enabled: yes
+
+    - name: Install Docker
+      yum:
+        name: docker-ce
+        state: latest
+
+    - name: Start and enable Docker service
+      service:
+        name: "docker"
+        state: started
+        enabled: yes
+
+    - name: Clone GitHub repository
+      shell: git clone {{ github_repo_url }} /home/ec2-user/project/weatherapp
+
+    - name: Build Docker image
+      shell: docker build -t {{ docker_image_name }}:{{ docker_image_tag }} /home/ec2-user/project/weatherapp
+
+    - name: Log in to Docker Hub
+      shell: echo "{{ docker_hub_password }}" | docker login --username {{ docker_hub_username }} --password-stdin
+
+    - name: Push Docker image to Docker Hub
+      shell: docker push {{ docker_image_name }}:{{ docker_image_tag }}
+
+    - name: Check if container is running
+      shell: docker ps -a
+
+    - name: Run Docker container
+      shell: docker run -dit --name saitheja12 -p 8000:8000 {{ docker_image_name }}:{{ docker_image_tag }}
+
+    - name: Show running images
+      shell: docker images
