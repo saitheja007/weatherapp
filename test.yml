@@ -12,7 +12,7 @@
 
   tasks:
     - name: Install system dependencies
-      yum:
+      dnf:
         name: "{{ item }}"
         state: latest
       loop:
